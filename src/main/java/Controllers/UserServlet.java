@@ -28,6 +28,7 @@ public class UserServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+        int id = Integer.parseInt(request.getParameter("id"));
         String firstName = request.getParameter("firstName");
         String lastName = request.getParameter("lastName");
         String email = request.getParameter("email");
@@ -35,6 +36,7 @@ public class UserServlet extends HttpServlet {
 
 
         User user = new User();
+        user.setId(id);
         user.setFirstName(firstName);
         user.setLastName(lastName);
         user.setEmail(email);

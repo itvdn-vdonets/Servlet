@@ -11,8 +11,8 @@ public class UserDAO {
 
     public int registerUser(User user) throws ClassNotFoundException {
         String INSERT_USERS_SQL = "INSERT INTO customers" +
-                "  (first_name, last_name, email, age) VALUES " +
-                " (?, ?, ?, ?);";
+                "  (id, first_name, last_name, email, age) VALUES " +
+                " (?, ?, ?, ?, ?);";
 
         int result = 0;
 
@@ -23,11 +23,11 @@ public class UserDAO {
 
              // Step 2:Create a statement using connection object
              PreparedStatement preparedStatement = connection.prepareStatement(INSERT_USERS_SQL)) {
-//            preparedStatement.setInt(1, 1);
-            preparedStatement.setString(1, user.getFirstName());
-            preparedStatement.setString(2, user.getLastName());
-            preparedStatement.setString(3, user.getEmail());
-            preparedStatement.setInt(4, user.getAge());
+            preparedStatement.setInt(1, user.getId());
+            preparedStatement.setString(2, user.getFirstName());
+            preparedStatement.setString(3, user.getLastName());
+            preparedStatement.setString(4, user.getEmail());
+            preparedStatement.setInt(5, user.getAge());
 
             System.out.println(preparedStatement);
             // Step 3: Execute the query or update query
