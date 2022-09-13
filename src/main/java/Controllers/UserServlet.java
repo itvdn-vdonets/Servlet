@@ -31,12 +31,14 @@ public class UserServlet extends HttpServlet {
         String firstName = request.getParameter("firstName");
         String lastName = request.getParameter("lastName");
         String email = request.getParameter("email");
+        int age = Integer.parseInt(request.getParameter("age"));
 
 
         User user = new User();
         user.setFirstName(firstName);
         user.setLastName(lastName);
         user.setEmail(email);
+        user.setAge(age);
 
         try {
             userDao.registerUser(user);

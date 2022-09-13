@@ -19,7 +19,7 @@ public class UserDAO {
         Class.forName("org.postgresql.Driver");
 
         try (Connection connection = DriverManager
-                .getConnection("jdbc:postgresql://localhost:5432/customers", "root", "root");
+                .getConnection("jdbc:postgresql://34.141.197.7:5432/postgres", "postgres", "postgres");
 
              // Step 2:Create a statement using connection object
              PreparedStatement preparedStatement = connection.prepareStatement(INSERT_USERS_SQL)) {

@@ -23,6 +23,10 @@
                 <td>Email</td>
                 <td><input type="text" name="email" /></td>
             </tr>
+            <tr>
+                <td>Age</td>
+                <td><input type="text" name="age" /></td>
+            </tr>
         </table>
         <input type="submit" value="Submit" />
     </form>
