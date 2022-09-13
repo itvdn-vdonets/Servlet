@@ -10,7 +10,7 @@ import java.sql.SQLException;
 public class UserDAO {
 
     public int registerUser(User user) throws ClassNotFoundException {
-        String INSERT_USERS_SQL = "INSERT INTO customers" +
+        String INSERT_USERS_SQL = "INSERT INTO users" +
                 "  (id, first_name, last_name, email, age) VALUES " +
                 " (?, ?, ?, ?, ?);";
 
