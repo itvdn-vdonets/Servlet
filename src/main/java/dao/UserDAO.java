@@ -12,7 +12,7 @@ public class UserDAO {
     private static final String SELECT_USER_BY_ID = "select id,first_name,last_name, age from users where id =?;";
     private static final String SELECT_ALL_USERS = "select * from users;";
     private static final String DELETE_USERS_SQL = "delete from users where id = ?;";
-    private static final String UPDATE_USERS_SQL = "update users set first_name = ?, set last_name= ?, set age =? where id = ?;";
+    private static final String UPDATE_USERS_SQL = "UPDATE users SET first_name = ?, last_name= ?, age =? where id = ?;";
     private static final String INSERT_USERS_SQL = "INSERT INTO users" +
             "  (first_name, last_name, age) VALUES " +
             " (?, ?, ?);";
@@ -45,7 +45,7 @@ public class UserDAO {
             ResultSet rs = preparedStatement.executeQuery();
 
             while (rs.next()) {
-                user.setId(rs.getInt("id"));
+                user.setId(id);
                 user.setFirstName(rs.getString("first_name"));
                 user.setLastName(rs.getString("last_name"));
                 user.setAge(rs.getInt("age"));
@@ -89,7 +89,8 @@ public class UserDAO {
 
     public static boolean updateUser(User user, Connection conn) throws SQLException {
         boolean rowUpdated;
-        try (PreparedStatement statement = conn.prepareStatement(UPDATE_USERS_SQL);) {
+        PreparedStatement statement = conn.prepareStatement(UPDATE_USERS_SQL);
+        System.out.println(statement);
             int i = 1;
             statement.setString(i++, user.getFirstName());
             statement.setString(i++, user.getLastName());
@@ -99,7 +100,8 @@ public class UserDAO {
             System.out.println(statement);
 
             rowUpdated = statement.executeUpdate() > 0;
-        }
+
+
         return rowUpdated;
     }
 

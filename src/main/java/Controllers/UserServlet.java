@@ -33,24 +33,12 @@ public class UserServlet extends HttpServlet {
             Connection conn = Util.getConnection();
 
             switch (action) {
-                case "/new":
-                    showNewForm(request, response, conn);
-                    break;
-                case "/insert":
-                    insertUser(request, response, conn);
-                    break;
-                case "/delete":
-                    deleteUser(request, response, conn);
-                    break;
-                case "/edit":
-                    showEditForm(request, response, conn);
-                    break;
-                case "/update":
-                    updateUser(request, response, conn);
-                    break;
-                default:
-                    listUser(request, response, conn);
-                    break;
+                case "/new" -> showNewForm(request, response, conn);
+                case "/insert" -> insertUser(request, response, conn);
+                case "/delete" -> deleteUser(request, response, conn);
+                case "/edit" -> showEditForm(request, response, conn);
+                case "/update" -> updateUser(request, response, conn);
+                default -> listUser(request, response, conn);
             }
         } catch (SQLException ex) {
             throw new ServletException(ex);
@@ -84,9 +72,9 @@ public class UserServlet extends HttpServlet {
 
         private void updateUser (HttpServletRequest request, HttpServletResponse response, Connection conn)
 			throws SQLException, IOException {
-            String id = request.getParameter("id");
+            int id = Integer.parseInt(request.getParameter("id"));
             User updatedUser = new User();
-            updatedUser.setId(Integer.parseInt(id));
+            updatedUser.setId(id);
             updatedUser.setFirstName(request.getParameter("firstName"));
             updatedUser.setLastName(request.getParameter("lastName"));
             updatedUser.setAge(Integer.parseInt(request.getParameter("age")));
