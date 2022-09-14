@@ -33,15 +33,35 @@ public class UserServlet extends HttpServlet {
             Connection conn = Util.getConnection();
 
             switch (action) {
-                case "/new" -> showNewForm(request, response, conn);
-                case "/insert" -> insertUser(request, response, conn);
-                case "/delete" -> deleteUser(request, response, conn);
-                case "/edit" -> showEditForm(request, response, conn);
-                case "/update" -> updateUser(request, response, conn);
-                default -> listUser(request, response, conn);
-
-
+                case "/new":
+                    showNewForm(request, response, conn);
+                    break;
+                case "/insert":
+                    insertUser(request, response, conn);
+                    break;
+                case "/delete":
+                    deleteUser(request, response, conn);
+                    break;
+                case "/edit":
+                    showEditForm(request, response, conn);
+                    break;
+                case "/update":
+                    updateUser(request, response, conn);
+                    break;
+                default:
+                    listUser(request, response, conn);
+                    break;
             }
+
+//            switch (action) {
+//                case "/new" -> showNewForm(request, response, conn);
+//                case "/insert" -> insertUser(request, response, conn);
+//                case "/delete" -> deleteUser(request, response, conn);
+//                case "/edit" -> showEditForm(request, response, conn);
+//                case "/update" -> updateUser(request, response, conn);
+//                default -> listUser(request, response, conn);
+//
+//            }
         } catch (SQLException ex) {
             throw new ServletException(ex);
         } catch (ClassNotFoundException e) {
