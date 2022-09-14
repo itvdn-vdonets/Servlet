@@ -51,13 +51,9 @@ public class UserServlet extends HttpServlet {
 
         private void listUser (HttpServletRequest request, HttpServletResponse response, Connection conn)
 			throws SQLException, IOException, ServletException {
-            System.out.println(1);
             List<User> listUser = UserDAO.getUserList(conn);
-            System.out.println(2);
             request.setAttribute("listUser", listUser);
-            System.out.println(3);
             RequestDispatcher dispatcher = request.getRequestDispatcher("userdetails.jsp");
-            System.out.println(4);
             dispatcher.forward(request, response);
         }
 
