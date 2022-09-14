@@ -39,6 +39,8 @@ public class UserServlet extends HttpServlet {
                 case "/edit" -> showEditForm(request, response, conn);
                 case "/update" -> updateUser(request, response, conn);
                 default -> listUser(request, response, conn);
+
+
             }
         } catch (SQLException ex) {
             throw new ServletException(ex);
