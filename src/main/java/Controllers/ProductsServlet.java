@@ -1,6 +1,6 @@
 package Controllers;
 
-import Utils.Util;
+import Utils.DBConnect;
 import dao.ProductsRepo;
 import entities.Product;
 
@@ -16,78 +16,75 @@ import java.util.List;
 public class ProductsServlet extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
+    private ProductsRepo productsRepo;
+
+    @Override
+    public void init() throws ServletException {
+        productsRepo = new ProductsRepo();
+    }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getServletPath();
+        Connection conn = DBConnect.getConnection();
         System.out.println("DOPOST:" + request);
-        try(Connection conn = Util.getConnection()) {
+        try {
             switch (action) {
                 case "/insert":
-                    insertUser(request, response, conn);
+                    insertProduct(request, response, conn);
                     break;
                 case "/update":
-                    updateUser(request, response, conn);
+                    updateProduct(request, response, conn);
                     break;
             }
         } catch (SQLException ex) {
             throw new ServletException(ex);
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
         }
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getServletPath();
-        try(Connection conn = Util.getConnection()) {
+        Connection conn = DBConnect.getConnection();
+        try {
             switch (action) {
                 case "/new":
-                    showNewForm(request, response, conn);
+                    showAddNewProductForm(request, response, conn);
                     break;
                 case "/delete":
-                    deleteUser(request, response, conn);
+                    deleteProduct(request, response, conn);
                     break;
                 case "/edit":
                     showEditForm(request, response, conn);
                     break;
                 case "/filter":
-                    System.out.println("FILTER!!!!");
-                    String name = request.getParameter("name");
-                    List<Product> listProduct;
-                    listProduct = ProductsRepo.getProductListByName(name, conn);
-                    if (listProduct.isEmpty()) {
-                        listProduct = ProductsRepo.getAllProducts(conn);
-                        request.setAttribute("message", "We haven't found any entries with the name " + name);
-                    }
-                    request.setAttribute("listProduct", listProduct);
-                    RequestDispatcher dispatcher = request.getRequestDispatcher("productlist.jsp");
-                    dispatcher.forward(request, response);
+                    filterSearchRequest(request, response, conn);
                     break;
                 default:
-                    listUser(request, response, conn);
+                    getProductList(request, response, conn);
                     break;
             }
-
-//            switch (action) {
-//                case "/new" -> showNewForm(request, response, conn);
-//                case "/insert" -> insertUser(request, response, conn);
-//                case "/delete" -> deleteUser(request, response, conn);
-//                case "/edit" -> showEditForm(request, response, conn);
-//                case "/update" -> updateUser(request, response, conn);
-//                default -> listUser(request, response, conn);
-//
-//            }
         } catch (SQLException ex) {
             throw new ServletException(ex);
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
         }
     }
 
-    private void listUser(HttpServletRequest request, HttpServletResponse response, Connection conn)
+    private void filterSearchRequest(HttpServletRequest request, HttpServletResponse response, Connection conn) throws SQLException, ServletException, IOException {
+        String name = request.getParameter("name");
+        List<Product> listProduct;
+        listProduct = productsRepo.getProductListByName(name, conn);
+        if (listProduct.isEmpty()) {
+            listProduct = productsRepo.getAllProducts(conn);
+            request.setAttribute("message", "We haven't found any entries with the name " + name);
+        }
+        request.setAttribute("listProduct", listProduct);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("productlist.jsp");
+        dispatcher.forward(request, response);
+    }
+
+    private void getProductList(HttpServletRequest request, HttpServletResponse response, Connection conn)
             throws SQLException, IOException, ServletException {
-        List<Product> listProduct = ProductsRepo.getAllProducts(conn);
+        List<Product> listProduct = productsRepo.getAllProducts(conn);
         request.setAttribute("listProduct", listProduct);
         RequestDispatcher dispatcher = request.getRequestDispatcher("productlist.jsp");
         dispatcher.forward(request, response);
@@ -97,14 +94,14 @@ public class ProductsServlet extends HttpServlet {
     private void showEditForm(HttpServletRequest request, HttpServletResponse response, Connection conn)
             throws SQLException, ServletException, IOException {
         int id = Integer.parseInt(request.getParameter("id"));
-        Product existingProduct = ProductsRepo.getProductById(id, conn);
+        Product existingProduct = productsRepo.getProductById(id, conn);
         RequestDispatcher dispatcher = request.getRequestDispatcher("addproduct.jsp");
         request.setAttribute("product", existingProduct);
         dispatcher.forward(request, response);
 
     }
 
-    private void updateUser(HttpServletRequest request, HttpServletResponse response, Connection conn)
+    private void updateProduct(HttpServletRequest request, HttpServletResponse response, Connection conn)
             throws SQLException, IOException {
         int id = Integer.parseInt(request.getParameter("id"));
         Product updatedProduct = new Product();
@@ -112,29 +109,29 @@ public class ProductsServlet extends HttpServlet {
         updatedProduct.setBrand(request.getParameter("brand"));
         updatedProduct.setName(request.getParameter("name"));
         updatedProduct.setPrice(Integer.parseInt(request.getParameter("price")));
-        ProductsRepo.updateProduct(updatedProduct, conn);
+        productsRepo.updateProduct(updatedProduct, conn);
         response.sendRedirect("list");
     }
 
-    private void deleteUser(HttpServletRequest request, HttpServletResponse response, Connection conn)
+    private void deleteProduct(HttpServletRequest request, HttpServletResponse response, Connection conn)
             throws SQLException, IOException {
         int id = Integer.parseInt(request.getParameter("id"));
-        ProductsRepo.deleteProductById(conn, id);
+        productsRepo.deleteProductById(conn, id);
         response.sendRedirect("list");
 
     }
 
-    private void insertUser(HttpServletRequest request, HttpServletResponse response, Connection conn)
+    private void insertProduct(HttpServletRequest request, HttpServletResponse response, Connection conn)
             throws SQLException, IOException {
         Product newProduct = new Product();
         newProduct.setBrand(request.getParameter("brand"));
         newProduct.setName(request.getParameter("name"));
         newProduct.setPrice(Integer.parseInt(request.getParameter("price")));
-        ProductsRepo.registerUser(newProduct, conn);
+        productsRepo.registerUser(newProduct, conn);
         response.sendRedirect("list");
     }
 
-    private void showNewForm(HttpServletRequest request, HttpServletResponse response, Connection conn)
+    private void showAddNewProductForm(HttpServletRequest request, HttpServletResponse response, Connection conn)
             throws ServletException, IOException {
         RequestDispatcher dispatcher = request.getRequestDispatcher("addproduct.jsp");
         dispatcher.forward(request, response);

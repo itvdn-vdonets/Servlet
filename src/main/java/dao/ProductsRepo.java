@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProductsRepo {
-    private ProductsRepo() {}
 
     private static final String SELECT_PRODUCT_BY_ID = "select id, brand, name, price from products where id =?;";
     private static final String SELECT_ALL_PRODUCTS = "select * from products;";
@@ -17,7 +16,7 @@ public class ProductsRepo {
             "  (brand, name, price) VALUES " +
             " (?, ?, ?);";
 
-    public static int registerUser(Product product, Connection conn) throws SQLException {
+    public int registerUser(Product product, Connection conn) throws SQLException {
         int result = 0;
         PreparedStatement stm = conn.prepareStatement(INSERT_PRODUCT_SQL);
         int i = 1;
@@ -29,7 +28,7 @@ public class ProductsRepo {
         return result;
     }
 
-    public static Product getProductById(int id, Connection conn) throws SQLException {
+    public Product getProductById(int id, Connection conn) throws SQLException {
         Product product = new Product();
         try (PreparedStatement preparedStatement = conn.prepareStatement(SELECT_PRODUCT_BY_ID)) {
             preparedStatement.setInt(1, id);
@@ -46,7 +45,7 @@ public class ProductsRepo {
         return product;
     }
 
-    public static List<Product> getAllProducts(Connection conn) throws SQLException {
+    public List<Product> getAllProducts(Connection conn) throws SQLException {
         List<Product> list = new ArrayList<>();
         try(PreparedStatement stm = conn.prepareStatement(SELECT_ALL_PRODUCTS)) {
             ResultSet rs = stm.executeQuery();
@@ -62,7 +61,7 @@ public class ProductsRepo {
         return list;
     }
 
-    public static List<Product> getProductListByName(String name, Connection conn) throws SQLException {
+    public List<Product> getProductListByName(String name, Connection conn) throws SQLException {
         PreparedStatement stm = conn.prepareStatement("SELECT * FROM products WHERE name = ?");
         stm.setString(1, name);
         System.out.println(stm);
@@ -79,7 +78,7 @@ public class ProductsRepo {
         return list;
     }
 
-    public static boolean deleteProductById(Connection conn, int id) throws SQLException {
+    public boolean deleteProductById(Connection conn, int id) throws SQLException {
         boolean userDeleted;
         PreparedStatement stm = conn.prepareStatement(DELETE_PRODUCT_SQL);
         int i = 1;
@@ -88,7 +87,7 @@ public class ProductsRepo {
         return userDeleted;
     }
 
-    public static boolean updateProduct(Product product, Connection conn) throws SQLException {
+    public boolean updateProduct(Product product, Connection conn) throws SQLException {
         boolean rowUpdated;
         PreparedStatement statement = conn.prepareStatement(UPDATE_PRODUCT_SQL);
         System.out.println(statement);
@@ -102,7 +101,7 @@ public class ProductsRepo {
         return rowUpdated;
     }
 
-    private static void printSQLException(SQLException ex) {
+    private void printSQLException(SQLException ex) {
         for (Throwable e : ex) {
             if (e instanceof SQLException) {
                 e.printStackTrace(System.err);

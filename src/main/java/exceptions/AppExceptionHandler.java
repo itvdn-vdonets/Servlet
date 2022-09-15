@@ -1,6 +1,6 @@
 package exceptions;
 
-import Utils.Util;
+import Utils.DBConnect;
 import dao.ProductsRepo;
 import entities.Product;
 
@@ -49,8 +49,8 @@ public class AppExceptionHandler extends HttpServlet {
 
         // Set response content type
         response.setContentType("text/html");
-        List<Product> userList;
-        try (Connection conn = Util.getConnection()) {
+        /*List<Product> userList;
+        try (Connection conn = DBConnect.getConnection()) {
             userList = ProductsRepo.getAllProducts(conn);
             System.out.println(userList);
         } catch (SQLException | ClassNotFoundException e) {
@@ -63,7 +63,9 @@ public class AppExceptionHandler extends HttpServlet {
             dispatcher.forward(request, response);
         } catch (ServletException e) {
             throw new RuntimeException(e);
-        }
+        }*/
+
+
         /*PrintWriter out = response.getWriter();
         out.write("<html><head><title>Exception/Error Details</title></head><body>");
         if(statusCode != 500){

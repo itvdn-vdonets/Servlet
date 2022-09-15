@@ -29,9 +29,9 @@
 
 <div class="row">
     <div class="container">
-        <c:if test="${message != null}">
+<%--        <c:if test="${message != null}">
             <div class="alert alert-success" *ngIf='message'><c:out value="${message}"/></div>
-        </c:if>
+        </c:if>--%>
 
         <h3 class="text-center">Products System</h3>
         <hr>
