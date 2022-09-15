@@ -6,4 +6,13 @@
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          metadata-complete="false">
 
+    <error-page>
+        <error-code>500</error-code>
+        <location>/AppExceptionHandler</location>
+    </error-page>
+
+    <error-page>
+        <exception-type>javax.servlet.ServletException</exception-type>
+        <location>/AppExceptionHandler</location>
+    </error-page>
 </web-app>

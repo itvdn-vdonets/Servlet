@@ -7,9 +7,9 @@ import java.sql.SQLException;
 public class Util {
 
     public static Connection getConnection() throws ClassNotFoundException, SQLException {
-        Class.forName("org.postgresql.Driver");
+        Class.forName("com.mysql.cj.jdbc.Driver");
 
-        return DriverManager.getConnection("jdbc:postgresql://34.91.117.254:5432/postgres", "postgres", "postgres");
+        return DriverManager.getConnection("jdbc:mysql://localhost:3306/classicmodels?serverTimezone=UTC", "root", "rootroot");
     }
 
 }
