@@ -29,9 +29,9 @@
 
 <div class="row">
     <div class="container">
-<%--        <c:if test="${message != null}">
+        <c:if test="${message != null}">
             <div class="alert alert-success" *ngIf='message'><c:out value="${message}"/></div>
-        </c:if>--%>
+        </c:if>
 
         <h3 class="text-center">Products System</h3>
         <hr>
@@ -52,26 +52,23 @@
             <thead>
             <tr>
                 <th>ID</th>
-                <th>Item</th>
+                <th>Name</th>
                 <th>Brand</th>
-                <th>Item</th>
+                <th>Price</th>
                 <th>Controls</th>
             </tr>
             </thead>
             <tbody>
-            <!--   for (Todo todo: todos) {  -->
-            <c:forEach var="product" items="${listProduct}">
+             <c:forEach var="product" items="${listProduct}">
                 <tr>
                     <td><c:out value="${product.id}"/></td>
                     <td><c:out value="${product.brand}"/></td>
                     <td><c:out value="${product.name}"/></td>
                     <td><c:out value="${product.price}"/></td>
                     <td><a href="edit?id=<c:out value='${product.id}' />">Edit</a>
-                        &nbsp;&nbsp;&nbsp;&nbsp; <a
-                                href="delete?id=<c:out value='${product.id}' />">Delete</a></td>
+                        &nbsp;&nbsp;&nbsp;&nbsp; <a href="delete?id=<c:out value='${product.id}' />">Delete</a></td>
                 </tr>
             </c:forEach>
-            <!-- } -->
             </tbody>
         </table>
     </div>

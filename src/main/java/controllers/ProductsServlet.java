@@ -1,12 +1,15 @@
-package Controllers;
+package controllers;
 
-import Utils.DBConnect;
-import dao.ProductsRepo;
-import entities.Product;
+import utils.DBConnect;
+import repos.ProductsRepo;
+import models.Product;
 
-import javax.servlet.*;
-import javax.servlet.http.*;
-import javax.servlet.annotation.*;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -27,7 +30,6 @@ public class ProductsServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getServletPath();
         Connection conn = DBConnect.getConnection();
-        System.out.println("DOPOST:" + request);
         try {
             switch (action) {
                 case "/insert":
@@ -98,7 +100,6 @@ public class ProductsServlet extends HttpServlet {
         RequestDispatcher dispatcher = request.getRequestDispatcher("addproduct.jsp");
         request.setAttribute("product", existingProduct);
         dispatcher.forward(request, response);
-
     }
 
     private void updateProduct(HttpServletRequest request, HttpServletResponse response, Connection conn)
@@ -127,7 +128,7 @@ public class ProductsServlet extends HttpServlet {
         newProduct.setBrand(request.getParameter("brand"));
         newProduct.setName(request.getParameter("name"));
         newProduct.setPrice(Integer.parseInt(request.getParameter("price")));
-        productsRepo.registerUser(newProduct, conn);
+        productsRepo.addProduct(newProduct, conn);
         response.sendRedirect("list");
     }
 

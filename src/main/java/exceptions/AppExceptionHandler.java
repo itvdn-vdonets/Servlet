@@ -1,19 +1,12 @@
 package exceptions;
 
-import Utils.DBConnect;
-import dao.ProductsRepo;
-import entities.Product;
-
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.List;
+import java.io.PrintWriter;
 
 @WebServlet("/AppExceptionHandler")
 public class AppExceptionHandler extends HttpServlet {
@@ -31,7 +24,6 @@ public class AppExceptionHandler extends HttpServlet {
 
     private void processError(HttpServletRequest request,
                               HttpServletResponse response) throws IOException {
-        // Analyze the servlet exception
         Throwable throwable = (Throwable) request
                 .getAttribute("javax.servlet.error.exception");
         Integer statusCode = (Integer) request
@@ -46,27 +38,7 @@ public class AppExceptionHandler extends HttpServlet {
         if (requestUri == null) {
             requestUri = "Unknown";
         }
-
-        // Set response content type
-        response.setContentType("text/html");
-        /*List<Product> userList;
-        try (Connection conn = DBConnect.getConnection()) {
-            userList = ProductsRepo.getAllProducts(conn);
-            System.out.println(userList);
-        } catch (SQLException | ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-        request.setAttribute("message", "Error with parameters!");
-        request.setAttribute("listProduct", userList);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("productlist.jsp");
-        try {
-            dispatcher.forward(request, response);
-        } catch (ServletException e) {
-            throw new RuntimeException(e);
-        }*/
-
-
-        /*PrintWriter out = response.getWriter();
+        PrintWriter out = response.getWriter();
         out.write("<html><head><title>Exception/Error Details</title></head><body>");
         if(statusCode != 500){
             out.write("<h3>Error Details</h3>");
@@ -82,6 +54,6 @@ public class AppExceptionHandler extends HttpServlet {
         }
         out.write("<br><br>");
         out.write("<a href=\"index.html\">Home Page</a>");
-        out.write("</body></html>");*/
+        out.write("</body></html>");
     }
 }
